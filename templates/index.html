@@ -373,7 +373,7 @@
             color: var(--light-grey);
             margin-bottom: 0;
           }
-          
+                    
     </style>
   </head>
   <body>
@@ -386,19 +386,19 @@
             src="{% static 'assets/home.png' %}"
             style="height: 1rem; margin-right: 0.5rem"
           />
-          <a href="#">Home</a>
+          <a href="/index">Home</a>
         </div>
-        <div class="link">
+        {% comment %} <div class="link">
           <i class="fas fa-search"></i>
           <a href="#">Search</a>
         </div>
-        <div class="link">
+         <div class="link">
           <img
             src="{% static 'assets/explore.png' %}"
             style="height: 1rem; margin-right: 0.5rem"
           />
           <a href="#">Explore</a>
-        </div>
+        </div> {% endcomment %}
         <div class="link">
           <img
             src="{% static 'assets/reels.png' %}"
@@ -425,8 +425,10 @@
             src="{% static 'assets/create.png' %}"
             style="height: 1rem; margin-right: 0.5rem"
           />
-          <a href="#">Create</a>
+          <a href="/create_recipies">Create</a>
         </div>
+
+        
         <div class="link">
           <img
             src="{% static 'assets/tv.png' %}"
@@ -434,6 +436,12 @@
           />
           <a href="#">Instagram TV</a>
         </div>
+
+        <div class="link">
+          <a href="/scan_vegitables">Scan Vegitables</a>
+        </div>
+
+
       </div>
       <div class="bottom-section">
         <div class="link">

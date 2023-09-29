@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
+from recipieapp.models import *
 
 # Create your views here.
 
@@ -43,3 +44,20 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('index')
+
+def create_recipies(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        note = request.POST.get("note")
+        image = request.FILES["image"]
+        recipe = Recipe(name=name, note=note, image=image, usr=request.user)
+        recipe.save()
+        messages.info(request, "Recipe first step successful...")
+        return redirect("create_recipe2")
+    return render(request, "create_recipes.html")
+
+def create_recipe2(request):
+    recipes = Recipe.objects.filter(usr=request.user)
+    if request.method == "POST":
+        pass
+    return render(request, "create_recipe2.html", {"recipes":recipes})
