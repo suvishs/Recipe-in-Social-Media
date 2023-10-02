@@ -13,16 +13,22 @@
         .leftdiv{
             border-right: 2px solid wheat;
             height: 100vh;
+            padding-left: 10%;
         }
         .rightdiv{
             height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: scroll;
         }
         .maindiv{
             width: 60%;
-            height: 80vh;
+            height: 90vh;
             border: 1px solid white;
             border-radius: 5px;
-            margin-top: 10vh;
+            margin-top: 5vh;
         }
         .maindiv{
             display: flex;
@@ -36,35 +42,69 @@
             align-items: center;
             justify-content: center;
         }
+        label{
+          color: aliceblue;
+        }
+        th{
+          text-align: center;
+        }
+        td{
+          text-align: center;
+        }
+        a{
+          text-align: center;
+          color: aliceblue;
+          text-decoration: none;
+          margin-bottom: 3vh;
+        }
     </style>
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
+          {% for i in Messages %}
+            <p class="text-center">{{ i }}</p>
+          {% endfor %}
             <div class="col-6 leftdiv">
                 <div class="maindiv">
                     <img src="{% static 'images/insta.png' %}" class="instalogo" alt="instalogo" width="30%" height="auto">
-                    <h3 style="color: aliceblue;">Ingredients</h3><br><br>
+                    <h3 style="color: aliceblue;">Ingredients</h3><br>
                     <div class="container div1">
                       <div class="row">
                         <div class="col-2"></div>
                         <div class="col-8">
             
-                          <form action="create_recipies2" method="post" enctype="multipart/form-data">
-
-                            <input type="text" class="form-control" name="name" placeholder="Recipe Name" required><br>
+                          <form action="create_recipe2" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <label for="recipe">Recipe Name</label>
+                            <select name="recipe_name" id="" class="form-control">
+                              <option value="None">---Recipe Name---</option>
+                              {% for i in recipes %}
+                                <option value="{{ i.name }}">{{ i.name }}</option>
+                              {% endfor %}
+                            </select>
+                            <p style="text-align: center;">OR</p>
+                            {% if last_name %}
+                              <input type="text" class="form-control" name="name" value="{{ last_name.last_name }}" placeholder="Recipe Name">
+                            {% else %}
+                              <input type="text" class="form-control" name="name" placeholder="Recipe Name">
+                            {% endif %}
+                            <input type="text" class="form-control" name="rawmaterial_name" placeholder="Rawmaterial Name" Required>
+                            <input type="text" class="form-control" name="quantity" placeholder="Quantity" Required>
                             <div>
-                                <label for="quantity">Table Spoon</label>
-                                <input type="radio" name="quantity" value="spoon">
+                                <label for="quantity">Spoon</label>
+                                <input type="radio" name="quantity_type" value="spoon">
                                 <label for="quantity">Grams</label>
-                                <input type="radio" name="quantity" value="grams">
-                            </div>
-                            
+                                <input type="radio" name="quantity_type" value="grams">
+                                <label for="quantity">Nos</label>
+                                <input type="radio" name="quantity_type" value="nos">
+                            </div><br>
                             <div class="btndiv">
-                              <input class="btn btn-outline-success" type="submit" value="Next Step">
+                              <a href="/index">Exit -></a>
+                              <input class="btn btn-outline-success" type="submit" value="Next">
                             </div>
                           </form>
-            
+
                         </div>
                         <div class="col-2"></div>
                       </div>
@@ -72,7 +112,30 @@
                 </div>
             </div>
             <div class="col-6 rightdiv">
-                
+              <img src="{% static 'images/insta.png' %}" class="instalogo" alt="instalogo" width="10%" height="auto">
+              <h3>{{last_recipe.name}}</h3>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Sl No</th>
+                    <th scope="col">Incredient Name</th>
+                    <th scope="col">Quantity Required</th>
+                    <th scope="col">Quantity Type</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for i in last_incredients %}
+                    <tr>
+                      <th scope="row">{{ forloop.counter}}</th>
+                      <td>{{ i.name }}</td>
+                      <td>{{ i.quantity }}</td>
+                      <td>{{ i.quantity_type }}</td>
+                      <td><a href="{% url 'delete_incredient' i.id %}" class="btn btn-danger">Delete</a></td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
         </div>
     </div>
