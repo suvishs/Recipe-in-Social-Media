@@ -21,4 +21,3 @@ class RecipeRawmaterials(models.Model):
     quantity_type = models.CharField(max_length=50, null=True)
     usr = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,null=True,blank=True)
-

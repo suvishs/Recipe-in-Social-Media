@@ -85,9 +85,9 @@
                             </select>
                             <p style="text-align: center;">OR</p>
                             {% if last_name %}
-                              <input type="text" class="form-control" name="name" value="{{ last_name.last_name }}" placeholder="Recipe Name">
+                              <input type="hidden" class="form-control" name="name" value="{{ last_name.last_name }}" placeholder="Recipe Name">
                             {% else %}
-                              <input type="text" class="form-control" name="name" placeholder="Recipe Name">
+                              <input type="hidden" class="form-control" name="name" placeholder="Recipe Name">
                             {% endif %}
                             <input type="text" class="form-control" name="rawmaterial_name" placeholder="Rawmaterial Name" Required>
                             <input type="text" class="form-control" name="quantity" placeholder="Quantity" Required>
@@ -113,7 +113,7 @@
             </div>
             <div class="col-6 rightdiv">
               <img src="{% static 'images/insta.png' %}" class="instalogo" alt="instalogo" width="10%" height="auto">
-              <h3>{{last_recipe.name}}</h3>
+              <h3 class="text-white">{{last_name.last_name}}</h3>
               <table class="table table-striped">
                 <thead>
                   <tr>
