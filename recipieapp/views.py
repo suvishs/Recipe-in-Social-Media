@@ -6,7 +6,8 @@ from recipieapp.models import *
 # Create your views here.
 
 def index(request):
-    return render(request, "index.html")
+    users = User.objects.all()
+    return render(request, "index.html", {"users":users})
 
 def register(request):
     if request.method == 'POST':
@@ -141,3 +142,17 @@ def deleteincredient(request,id, pk):
     incredient = RecipeRawmaterials.objects.get(id=id)
     incredient.delete()
     return redirect(f"/recipedetails/{int(pk)}")
+
+def userprofile(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        phonenumber = request.POST.get("phonenumber")
+        profilepicture = request.FILES["profilepicture"]
+        user_profile = UserProfile(name=name, phonenumber=phonenumber, profilepicture=profilepicture, usr=request.user)
+        user_profile.save()
+        messages.info(request, "User profile created successfuly...")
+        return redirect("index")
+    return render(request, "userprofile.html")
+
+def sendto(request,id):
+    return render(request, "message.html")

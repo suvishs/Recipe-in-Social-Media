@@ -373,7 +373,54 @@
             color: var(--light-grey);
             margin-bottom: 0;
           }
-                    
+          .modal {
+            background-color: white;
+            color: #000;
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 40%;
+            height: 60vh;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+            justify-content: center;
+            align-items: center;
+            margin-left: 25%;
+            margin-top: 10vh;
+          }
+          .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+          } 
+          .modelmain{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 48vh;
+          }    
+          .message{
+            width: 80%;
+            min-height: 30vh;
+            border: 2px solid black;
+            overflow: scroll;
+          } 
+          th,td {
+            text-align: center;
+            width: 130px;
+          }
+          td a.sendbtn {
+            text-decoration: none;
+            background-color: #007bff; 
+            color: #fff; 
+            padding: 5px 10px; 
+            border-radius: 5px; 
+            border: 1px solid #007bff; 
+            display: inline-block; 
+            text-align: center; 
+          }
     </style>
   </head>
   <body>
@@ -388,31 +435,49 @@
           />
           <a href="/index">Home</a>
         </div>
-        {% comment %} <div class="link">
-          <i class="fas fa-search"></i>
-          <a href="#">Search</a>
-        </div>
-         <div class="link">
-          <img
-            src="{% static 'assets/explore.png' %}"
-            style="height: 1rem; margin-right: 0.5rem"
-          />
-          <a href="#">Explore</a>
-        </div> {% endcomment %}
-        <div class="link">
+        <!-- <div class="link">
           <img
             src="{% static 'assets/reels.png' %}"
             style="height: 1rem; margin-right: 0.5rem"
           />
           <a href="#">Reels</a>
-        </div>
+        </div> -->
         <div class="link">
           <img
             src="{% static 'assets/messenger.png' %}"
             style="height: 1rem; margin-right: 0.5rem"
           />
-          <a href="#">Messages</a>
+          <a href="#" id="openModalLink">Messages</a>
         </div>
+
+        <div id="myModal" class="modal">
+          <div class="modal-content">
+            <div class="modelmain">
+              <img src="{% static 'images/insta.png' %}" class="instalogo" alt="instalogo" width="10%" height="auto">
+              <h3 style="color: #000;">Messages</h3>
+              <div class="message">
+                <h3 style="text-align:center;">Peoples</h3>
+                <table>
+                  <tr>
+                    <th>Sl no</th>
+                    <th>Name</th>
+                    <th>Send</th>
+                  </tr>
+                  {% for i in users %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ i.username }}</td>
+                      <td><a href="{% url 'sendto' i.id %}" class="sendbtn">send</a></td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              </div>
+            </div>
+            <button id="closeModal">Close</button>
+          </div>
+        </div>
+
+        
         <div class="link">
           <i
             data-feather="heart"
@@ -441,6 +506,9 @@
           <a href="/scan_vegitables">Scan Vegitables</a>
         </div>
 
+        <div class="link">
+          <a href="/userprofile">UserProfile</a>
+        </div>
 
       </div>
       <div class="bottom-section">
@@ -483,6 +551,9 @@
     </div>
     
     <div class="main-container">
+      {% for i in messages %}
+        <p style="color: white; text-align: center;">{{ i }}</p>
+      {% endfor %}
       <div class="stories-container">
         <div class="story">
           <div class="gradient-border">
@@ -903,5 +974,30 @@
     <script>
       feather.replace();
     </script>
+    <script>
+      // Get references to the link and modal elements
+      const openModalLink = document.getElementById('openModalLink');
+      const modal = document.getElementById('myModal');
+      const closeModalButton = document.getElementById('closeModal');
+    
+      // Add an event listener to open the modal when the link is clicked
+      openModalLink.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the default behavior of the link
+        modal.style.display = 'block'; // Display the modal
+      });
+    
+      // Add an event listener to close the modal when the close button is clicked
+      closeModalButton.addEventListener('click', function () {
+        modal.style.display = 'none'; // Hide the modal
+      });
+    
+      // Close the modal if the user clicks outside of it
+      window.addEventListener('click', function (event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    </script>
+    
   </body>
 </html>

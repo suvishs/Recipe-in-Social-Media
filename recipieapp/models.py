@@ -21,3 +21,9 @@ class RecipeRawmaterials(models.Model):
     quantity_type = models.CharField(max_length=50, null=True)
     usr = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,null=True,blank=True)
+    
+class UserProfile(models.Model):
+    name = models.CharField(max_length=50, null=True)
+    phonenumber = models.CharField(max_length=13, null=True)
+    profilepicture = models.ImageField(upload_to="Profile_Picture", null=True)
+    usr = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
